@@ -9,8 +9,8 @@
 // configurable parameters
 #define SND_VEL 346.0 // sound velocity at 24 celsius degree (unit: m/s)
 #define INTERVAL 25 // sampling interval (unit: ms)
-#define _DIST_MIN 0 // minimum distance to be measured (unit: mm)
-#define _DIST_MAX 1000 // maximum distance to be measured (unit: mm)
+#define _DIST_MIN 180 // minimum distance to be measured (unit: mm)
+#define _DIST_MAX 360 // maximum distance to be measured (unit: mm)
 
 #define _DUTY_MIN 544 // servo full clockwise position (0 degree)
 #define _DUTY_NEU 1472 // servo neutral position (90 degree)
@@ -22,7 +22,7 @@ float dist_min, dist_max, dist_raw, dist_prev, dist_ema; // unit: mm
 unsigned long last_sampling_time; // unit: ms
 float scale; // used for pulse duration to distance conversion
 Servo myservo;
-float alpha = 0.5;
+float alpha = 0.1;
 
 void setup() {
 // initialize GPIO pins
@@ -56,11 +56,7 @@ void loop() {
 // get a distance reading from the USS
   dist_raw = USS_measure(PIN_TRIG,PIN_ECHO);
   dist_ema = alpha * dist_raw + (1 - alpha)*dist_ema;
-  if (dist_raw >= 180 && dist_raw <= 360){
-    digitalWrite(PIN_LED, 0);
-  }else {
-    digitalWrite(PIN_LED, 1);
-  }
+
 // output the read value to the serial port
   Serial.print("Min:100,raw:");
   Serial.print(dist_raw);
@@ -98,7 +94,11 @@ float USS_measure(int TRIG, int ECHO)
 
   reading = pulseIn(ECHO, HIGH, timeout) * scale; // unit: mm
   if(reading < dist_min || reading > dist_max) reading = 0.0; // return 0 when out of range.
-
+  if(reading >= dist_min && reading <= dist_max){
+    digitalWrite(PIN_LED, 0);
+  }else{
+    digitalWrite(PIN_LED, 1);
+  }
   if(reading == 0.0) reading = dist_prev;
   else dist_prev = reading;
   
