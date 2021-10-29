@@ -5,7 +5,7 @@
 
 // configurable parameters
 #define SND_VEL 346.0 // sound velocity at 24 celsius degree (unit: m/s)
-#define INTERVAL 100 // sampling interval (unit: ms)
+#define INTERVAL 25 // sampling interval (unit: ms)
 #define _DIST_MIN 100 // minimum distance to be measured (unit: mm)
 #define _DIST_MAX 300 // maximum distance to be measured (unit: mm)
 
@@ -34,7 +34,7 @@ void setup() {
   Serial.begin(57600);
 
 // initialize last sampling time
-  last_sampling_time = 25;
+  last_sampling_time = 0;
 }
 
 void loop() {
