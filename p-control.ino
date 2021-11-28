@@ -3,10 +3,10 @@
 #define PIN_IR A0
 #define PIN_LED 9
 
-#define _DIST_TARGET 255  //탁구공위치
-#define _DIST_MIN 100   //거리 최소
-#define _DIST_MAX 410    //거리 최대
-#define _DIST_ALPHA 0.35 //EMA 필터링을 위한 알파값(0~1)
+#define _DIST_TARGET 255 
+#define _DIST_MIN 100   
+#define _DIST_MAX 410    
+#define _DIST_ALPHA 0.35 
 
 #define _DUTY_MIN 1320  
 #define _DUTY_NEU 1270  
@@ -14,7 +14,7 @@
 
 #define _SERVO_ANGLE 30.0  
 #define _SERVO_SPEED 220
-#define _INTERVAL_DIST 30  //각 event 사이에 지정한 시간 간격
+#define _INTERVAL_DIST 30 
 #define _INTERVAL_SERVO 20
 #define _INTERVAL_SERIAL 100 
 
@@ -29,18 +29,18 @@ Servo myservo;
 
 float dist_target; // location to send the ball
 float dist_raw;
-float dist_ema=0; //측정된 값과 ema 필터를 적용한 값
+float dist_ema=0;
 float samples_num = 3;  
 
 // Event periods
 unsigned long last_sampling_time_dist, last_sampling_time_servo, last_sampling_time_serial; 
-//각 event의 진행 시간 저장 변수 
+
 bool event_dist, event_servo, event_serial; 
-//각 event의 시간체크를 위한 변수 (ex_20초 주기 >> 0초(True,시작), 10초(False), 20초(True))
+
 
 // Servo speed control
-int duty_chg_per_interval; //주기 당 서보 duty값 변화량
-int duty_target, duty_curr; //목표 위치와 현재 위치
+int duty_chg_per_interval;
+int duty_target, duty_curr;
 // PID variables
 float error_curr, error_prev, control, pterm, dterm, iterm;
 
